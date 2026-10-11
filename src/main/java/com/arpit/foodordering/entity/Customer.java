@@ -21,5 +21,6 @@ public class Customer {
 	private String contactNumber;
 	private String address;
 
-
+	@OneToMany(mappedBy = "customer")
+	private List<Order> orderList = new ArrayList<Order>();
 }
