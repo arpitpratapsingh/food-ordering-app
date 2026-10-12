@@ -11,9 +11,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-public class MenuItem {
+@Getter
+@Setter
+@NoArgsConstructor
+public class MenuItems {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +33,6 @@ public class MenuItem {
 	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
 
-	@OneToMany
-	@JoinColumn(name = "menuItem")
+	@OneToMany(mappedBy = "menuItem")
 	private List<OrderItems> orderItems = new ArrayList<>();
 }

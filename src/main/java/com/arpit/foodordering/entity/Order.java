@@ -1,5 +1,6 @@
 package com.arpit.foodordering.entity; 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.arpit.foodordering.enums.Status;
@@ -15,8 +16,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name= "orders")
 public class Order {
 
@@ -35,7 +42,7 @@ public class Order {
 	private Customer customer;
 
 	@OneToMany(mappedBy = "order")
-	private List<OrderItems> orderItems;
+	private List<OrderItems> orderItems = new ArrayList<>();
 
 	@OneToOne(mappedBy = "order")
 	private Payment payment;

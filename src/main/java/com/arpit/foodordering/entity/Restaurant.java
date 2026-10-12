@@ -9,8 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Restaurant {
 	
 	@Id
@@ -23,6 +29,6 @@ public class Restaurant {
 	private Double restaurantRating;
 
 	@OneToMany(mappedBy = "restaurant")
-	private List<MenuItem> menuItems = new ArrayList<>();
+	private List<MenuItems> menuItems = new ArrayList<>();
 	
 }
