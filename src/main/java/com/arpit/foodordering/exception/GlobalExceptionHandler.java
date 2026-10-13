@@ -30,7 +30,6 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 	}
 
-
 	//InvalidOrderStatusException
 	@ExceptionHandler(InvalidOrderStatusException.class)
 	public ResponseEntity<ResponseStructure<String>> invalidOrderStatusException(InvalidOrderStatusException ex){
@@ -41,7 +40,6 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 	}
 
-	
 	//MenuItemUnavailableException
 	@ExceptionHandler(MenuItemUnavailableException.class)
 	public ResponseEntity<ResponseStructure<String>> menuItemUnavailableException(MenuItemUnavailableException ex){
@@ -52,7 +50,6 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 	}
 	
-	
 	//Order not found exception
 	@ExceptionHandler(OrderNotFoundException.class)
 	public ResponseEntity<ResponseStructure<String>> orderNotFoundException(OrderNotFoundException ex){
@@ -62,8 +59,6 @@ public class GlobalExceptionHandler {
 
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
-	
-	
 
 	//Payment not found exception
 	@ExceptionHandler(PaymentNotFoundException.class)
@@ -75,8 +70,6 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
 	
-	
-	
 	//RestaurantNotFoundException
 	@ExceptionHandler(RestaurantNotFoundException.class)
 	public ResponseEntity<ResponseStructure<String>> restaurantNotFoundException(RestaurantNotFoundException ex){
@@ -86,7 +79,6 @@ public class GlobalExceptionHandler {
 
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
-	
 	
 	//Generic exception
 	@ExceptionHandler(Exception.class)
@@ -98,8 +90,5 @@ public class GlobalExceptionHandler {
 
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	
-	
 	
 }
