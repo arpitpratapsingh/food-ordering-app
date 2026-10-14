@@ -118,8 +118,56 @@ public class CustomerService {
 	}
 	
 	
+	//5. Delete Customer
+	public ResponseStructure<String> delete(Long id){
+		if(!customerRepository.existsById(id)) {
+			throw new CustomerNotFoundException("Customer with give id "+id+"does not exist");
+		}
+		customerRepository.deleteById(id);
+		ResponseStructure<String> response = new ResponseStructure<String>();
+		response.setData(null);
+		response.setMessage("Customer deleted successfully");
+		return response;
+		
+	}
 	
 	
+	//6. Get By Contact
+	public ResponseStructure<Customer> getByContact(String contactNumber){
+		if(!customerRepository.existsByContactNumber(contactNumber)) {
+			throw new CustomerNotFoundException("This contact number does not belong to any customer");
+		}
+		ResponseStructure<Customer> response = new ResponseStructure<>();
+		response.setData(customerRepository.findByContactNumber(contactNumber));
+		response.setMessage("Customer fetched from database successfully");
+		
+		return response;
+	}
+
+
+	//7. Get By Email
+	public ResponseStructure<Customer> getByEmail(String customerEmail){
+		if(!customerRepository.existsByContactNumber(customerEmail)) {
+			throw new CustomerNotFoundException("This emailId does not belong to any customer");
+		}
+		ResponseStructure<Customer> response = new ResponseStructure<>();
+		response.setData(customerRepository.findByEmail(customerEmail));
+		response.setMessage("Customer fetched from database successfully");
+		
+		return response;
+	}
+	
+	
+	//8. Get By Name
+	public ResponseStructure<List<Customer>> getByName(String name){
+		if(!customerRepository.existsByName(name)) {
+			throw new CustomerNotFoundException("Customer with given name "+ name +" does not exist");
+		}
+		ResponseStructure<List<Customer>> response = new ResponseStructure<>();
+		response.setData(customerRepository.findByName(name));
+		
+		return response;
+	}
 	
 	
 	
