@@ -44,7 +44,7 @@ public class CustomerController {
 
 	
 	//3. get by id
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<ResponseStructure<Customer>> getById(@PathVariable Long id){
 		ResponseStructure<Customer> response = customerService.getById(id);
 		return new ResponseEntity<>(response,HttpStatus.OK);
@@ -53,7 +53,7 @@ public class CustomerController {
 	
 	//4. update customer
 	@PatchMapping("/{id}")
-	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(@RequestBody CustomerDto customerDto, Long id){
+	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(@RequestBody CustomerDto customerDto, @PathVariable Long id){
 		ResponseStructure<Customer> response = customerService.updateCustomer(customerDto, id);
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
@@ -68,7 +68,7 @@ public class CustomerController {
 	
 	
 	//6. get by contact
-	@GetMapping("/{contactNumber}")
+	@GetMapping("/contact/{contactNumber}")
 	public ResponseEntity<ResponseStructure<Customer>> getByContact(@PathVariable String contactNumber){
 		ResponseStructure<Customer> response = customerService.getByContact(contactNumber.trim());
 		return new ResponseEntity<>(response,HttpStatus.OK);
@@ -76,7 +76,7 @@ public class CustomerController {
 	
 	
 	//7. get by email
-	@GetMapping("/{customerEmail}")
+	@GetMapping("/email/{customerEmail}")
 	public ResponseEntity<ResponseStructure<Customer>> getByEmail(@PathVariable String customerEmail){
 		ResponseStructure<Customer> response = customerService.getByEmail(customerEmail.trim());
 		return new ResponseEntity<>(response, HttpStatus.OK);
@@ -84,7 +84,7 @@ public class CustomerController {
 	
 	
 	//8. get customers by name
-	@GetMapping("/{customerName}")
+	@GetMapping("/name/{name}")
 	public ResponseEntity<ResponseStructure<List<Customer>>> getByName(@PathVariable String name){
 		ResponseStructure<List<Customer>> response = customerService.getByName(name.trim());
 		return new ResponseEntity<>(response, HttpStatus.OK);
