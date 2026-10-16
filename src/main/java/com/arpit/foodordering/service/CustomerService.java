@@ -87,16 +87,46 @@ public class CustomerService {
 		}
 		Customer customer = opt.get();
 		//email
-		if(customer.getEmail() != null) {
+		if(customerDto.getEmail() != null) {
 			String email = customerDto.getEmail().trim();
 			
 			if(customerRepository.existsByEmail(email)
-					&& !customer.getEmail().equalsIgnoreCase(email)) {
+					&& !email.equalsIgnoreCase(customer.getEmail())) {
 				throw new DuplicateCustomerException("This email id already exists");
 			}
+			customer.setEmail(customerDto.getEmail().trim());
 					
 		}
-		customer.setEmail(customerDto.getEmail());
+		
+		
+		// contact number
+		if(customerDto.getContactNumber() != null) {
+			String contact = customerDto.getContactNumber().trim();
+			
+			if(customerRepository.existsByContactNumber(contact) 
+					&& !contact.equals(customer.getContactNumber())) {
+				throw new DuplicateCustomerException("This contact number already exists");
+			}
+			customer.setContactNumber(customerDto.getContactNumber().trim());
+		}
+		
+		// address
+		if(customerDto.getAddress() != null) {
+			customer.setAddress(customerDto.getAddress().trim());
+		}
+		
+		// name
+		if(customerDto.getName() != null) {
+			customer.setName(customerDto.getName().trim());
+		}
+
+		customerRepository.save(customer);
+		
+		ResponseStructure<Customer> response = new ResponseStructure<>();
+		response.setData(customer);
+		response.setMessage("Customer updated successfully");
+		
+		return response;
 	}
 	
 	//5. Delete Customer
