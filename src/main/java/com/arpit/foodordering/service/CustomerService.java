@@ -94,7 +94,7 @@ public class CustomerService {
 					&& !email.equalsIgnoreCase(customer.getEmail())) {
 				throw new DuplicateCustomerException("This email id already exists");
 			}
-			customer.setEmail(customerDto.getEmail().trim());
+			customer.setEmail(email);
 					
 		}
 		
@@ -107,7 +107,7 @@ public class CustomerService {
 					&& !contact.equals(customer.getContactNumber())) {
 				throw new DuplicateCustomerException("This contact number already exists");
 			}
-			customer.setContactNumber(customerDto.getContactNumber().trim());
+			customer.setContactNumber(contact);
 		}
 		
 		// address
