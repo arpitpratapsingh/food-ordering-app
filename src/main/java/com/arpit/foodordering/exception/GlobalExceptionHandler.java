@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
 		response.setMessage(ex.getMessage());
 		response.setData(null);
 
-		return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 
 	//MenuItemUnavailableException
@@ -47,7 +47,17 @@ public class GlobalExceptionHandler {
 		response.setMessage(ex.getMessage());
 		response.setData(null);
 
-		return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	}
+	
+	//MenuItemNotFoundException
+	@ExceptionHandler(MenuItemNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> menuItemNotFoundException(MenuItemNotFoundException ex){
+		ResponseStructure<String> response = new ResponseStructure<>();
+		response.setMessage(ex.getMessage());
+		response.setData(null);
+
+		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
 	
 	//Order not found exception
@@ -78,6 +88,26 @@ public class GlobalExceptionHandler {
 		response.setData(null);
 
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	}
+	
+	//DuplicateRestaurantException
+	@ExceptionHandler(DuplicateRestaurantException.class)
+	public ResponseEntity<ResponseStructure<String>> duplicateRestaurantException(DuplicateRestaurantException ex){
+		ResponseStructure<String> response = new ResponseStructure<>();
+		response.setMessage(ex.getMessage());
+		response.setData(null);
+		
+		return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+	}
+	
+	//IllegalArgumentException
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<ResponseStructure<String>> illegalArgumentException(IllegalArgumentException ex){
+		ResponseStructure<String> response = new ResponseStructure<>();
+		response.setMessage(ex.getMessage());
+		response.setData(null);
+		
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 	
 	//Generic exception

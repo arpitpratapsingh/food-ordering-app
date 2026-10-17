@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.arpit.foodordering.dto.ResponseStructure;
 import com.arpit.foodordering.dto.RestaurantDto;
+import com.arpit.foodordering.entity.MenuItems;
 import com.arpit.foodordering.entity.Restaurant;
 import com.arpit.foodordering.service.RestaurantService;
 
@@ -42,22 +43,22 @@ public class RestaurantController {
 	
 	//3. get by id
 	@GetMapping("/{id}")
-	public ResponseEntity<ResponseStructure<Restaurant>> getRestaurantById(@PathVariable Integer id){
+	public ResponseEntity<ResponseStructure<Restaurant>> getRestaurantById(@PathVariable Long id){
 		ResponseStructure<Restaurant> response = restaurantService.getRestaurantById(id);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	//4. update restaurant
 	@PatchMapping("/{id}")
-	public ResponseEntity<ResponseStructure<Restaurant>> updateRestaurant(@RequestBody RestaurantDto restaurantDto, @PathVariable Integer id){
+	public ResponseEntity<ResponseStructure<Restaurant>> updateRestaurant(@RequestBody RestaurantDto restaurantDto, @PathVariable Long id){
 		ResponseStructure<Restaurant> response = restaurantService.updateRestaurant(restaurantDto, id);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	//5. delete restaurant
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ResponseStructure<Restaurant>> deleteRestaurant(@PathVariable Integer id){
-		ResponseStructure<Restaurant> response = restaurantService.deleteRestaurant(id);
+	public ResponseEntity<ResponseStructure<String>> deleteRestaurant(@PathVariable Long id){
+		ResponseStructure<String> response = restaurantService.deleteRestaurant(id);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	//6. get restaurant by location
@@ -74,14 +75,14 @@ public class RestaurantController {
 	}
 	//8. get by rating
 	@GetMapping("/rating/{rating}")
-	public ResponseEntity<ResponseStructure<List<Restaurant>>> getRestaurantByRating(@PathVariable Integer rating){
+	public ResponseEntity<ResponseStructure<List<Restaurant>>> getRestaurantByRating(@PathVariable Double rating){
 		ResponseStructure<List<Restaurant>> response = restaurantService.getRestaurantByRating(rating);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	//9. get menu
-	@GetMapping("/menu/{menu}")
-	public ResponseEntity<ResponseStructure<List<Restaurant>>> getRestaurantMenu(@PathVariable String menu){
-		ResponseStructure<List<Restaurant>> response = restaurantService.getRestaurantMenu(menu);
+	//9. get menu of a restaurant
+	@GetMapping("/{restaurantId}/menu")
+	public ResponseEntity<ResponseStructure<List<MenuItems>>> getRestaurantMenu(@PathVariable Long restaurantId){
+		ResponseStructure<List<MenuItems>> response = restaurantService.getRestaurantMenu(restaurantId);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
