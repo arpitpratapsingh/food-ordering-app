@@ -85,7 +85,4 @@ public class RestaurantController {
 		ResponseStructure<List<MenuItems>> response = restaurantService.getRestaurantMenu(restaurantId);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-
-
-
 }

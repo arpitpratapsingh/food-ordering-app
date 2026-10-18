@@ -13,7 +13,7 @@ import com.arpit.foodordering.entity.Restaurant;
 import com.arpit.foodordering.exception.DuplicateRestaurantException;
 import com.arpit.foodordering.exception.MenuItemNotFoundException;
 import com.arpit.foodordering.exception.RestaurantNotFoundException;
-import com.arpit.foodordering.repository.MenuItemRepository;
+import com.arpit.foodordering.repository.MenuItemsRepository;
 import com.arpit.foodordering.repository.RestaurantRepository;
 
 @Service
@@ -22,7 +22,7 @@ public class RestaurantService {
 	@Autowired
 	RestaurantRepository restaurantRepository;
 	@Autowired
-	MenuItemRepository menuItemRepository;
+	MenuItemsRepository menuItemRepository;
 	
 	//1. Add restaurant
 	public ResponseStructure<Restaurant> addRestaurant(RestaurantDto restaurantDto){
