@@ -8,20 +8,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.arpit.foodordering.dto.ResponseStructure;
+import com.arpit.foodordering.entity.Customer;
 import com.arpit.foodordering.entity.Order;
+import com.arpit.foodordering.entity.Restaurant;
 import com.arpit.foodordering.enums.Status;
+import com.arpit.foodordering.exception.CustomerNotFoundException;
 import com.arpit.foodordering.exception.OrderNotFoundException;
+import com.arpit.foodordering.exception.RestaurantNotFoundException;
+import com.arpit.foodordering.repository.CustomerRepository;
 import com.arpit.foodordering.repository.OrderRepository;
+import com.arpit.foodordering.repository.RestaurantRepository;
 
 @Service
 public class OrderService {
 
 	@Autowired
 	OrderRepository orderRepository;
+	@Autowired
+	CustomerRepository customerRepository;
+	@Autowired
+	RestaurantRepository restaurantRepository;
 	
-	//1. list orders
-	
-	//2. get all orders
+	//1. get all orders
 	public ResponseStructure<List<Order>> getAllOrders(){
 		
 		List<Order> orders = orderRepository.findAll();
@@ -31,15 +39,34 @@ public class OrderService {
 		}
 		
 		ResponseStructure<List<Order>> response = new ResponseStructure<>();
-		response.setMessage("No order exist");
+		response.setMessage("Orders retrived successfully");
 		response.setData(orders);
 		
 		return response;
 	}
 	
-	//3. get all orders of a customer
+	//2. get orders of a customer
+	public ResponseStructure<List<Order>> getOrdersByCustomer(Long customerId){
+		
+		Optional<Customer> opt = customerRepository.findById(customerId);
+		
+		if(opt.isEmpty()) {
+			throw new CustomerNotFoundException("Customer associated with customer id : "+ customerId +"does not exist");
+		}
+		
+		Customer customer = opt.get();
+		
+		List<Order> orderList = customer.getOrderList();
+		
+		ResponseStructure<List<Order>> response = new ResponseStructure<List<Order>>();
+		response.setMessage("Orders retrived successfully");
+		response.setData(orderList);
+		
+		return response;
+		
+	}
 	
-	//4. get by id
+	//3. get by id
 	public ResponseStructure<Order> getById(Long id){
 		
 		Optional<Order> opt = orderRepository.findById(id);
@@ -49,13 +76,13 @@ public class OrderService {
 		}
 		
 		ResponseStructure<Order> response = new ResponseStructure<>();
-		response.setMessage("Order does not exist");
+		response.setMessage("Order retrieved successfully");
 		response.setData(opt.get());
 		
 		return response;
 	}
 	
-	//5. update order status
+	//4. update order status
 	public ResponseStructure<Order> updateStatus(Long id, Status status){
 		
 		if(status == null) {
@@ -82,9 +109,40 @@ public class OrderService {
 		
 	}
 	
-	//6. cancel order
+	//5. cancel order
+	public ResponseStructure<Order> cancelOrder(Long orderId){
+		
+		Optional<Order> opt = orderRepository.findById(orderId);
+		
+		if(opt.isEmpty()) {
+			throw new OrderNotFoundException("Order with order ID : "+orderId+" does not exist");
+		}
+		
+		Order order = opt.get();
+		
+		if (order.getStatus() == Status.COMPLETED) {
+		    throw new IllegalArgumentException("Delivered orders cannot be cancelled");
+		}
+
+		if (order.getStatus() == Status.CANCELLED) {
+		    throw new IllegalArgumentException("Order is already cancelled");
+		}
+		
+		order.setStatus(Status.CANCELLED);
+		
+		Order updatedOrder = orderRepository.save(order);
+		
+		ResponseStructure<Order> response = new ResponseStructure<Order>();
+		
+		response.setMessage("You have successfully cancelled your order");
+		response.setData(updatedOrder);
+		
+		return response;
+		
+		
+	}
 	
-	//7. get by status
+	//6. get by status
 	public ResponseStructure<List<Order>> getByStatus(Status status){
 		
 		if(status == null) {
@@ -105,7 +163,7 @@ public class OrderService {
 		
 	}
 	
-	//8. get by date
+	//7. get by date
 	public ResponseStructure<List<Order>> getByOrderDate(LocalDateTime orderDate){
 		
 		if(orderDate == null) {
@@ -125,6 +183,28 @@ public class OrderService {
 		return response;
 		
 	}
-	//9. get all order placed in a restaurant
 	
+	//8. get all order placed in a restaurant
+	public ResponseStructure<List<Order>> getOrdersByRestaurant(Long restaurantId){
+		
+		Optional<Restaurant> opt = restaurantRepository.findById(restaurantId);
+		
+		if(opt.isEmpty()) {
+			throw new RestaurantNotFoundException("Restaurant not found");
+		}
+		
+		List<Order> orderList = orderRepository.findOrdersByRestaurantId(restaurantId);
+		
+		if(orderList.isEmpty()) {
+			throw new OrderNotFoundException("No orders found for this restaurant");
+		}
+		
+		ResponseStructure<List<Order>> response = new ResponseStructure<List<Order>>();
+		
+		response.setMessage("Orders fetched successfully");
+		response.setData(orderList);
+		
+		return response;
+		
+	}
 }

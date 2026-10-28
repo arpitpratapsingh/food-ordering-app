@@ -157,7 +157,7 @@ public class MenuItemService {
 			throw new RestaurantNotFoundException("Restaurant with id "+ restaurantId+ " does not exist");
 		}
 		
-		List<MenuItems> items = menuItemsRepository.findByRestaurantId(restaurantId);
+		List<MenuItems> items = menuItemsRepository.findByRestaurant_RestaurantId(restaurantId);
 		
 		if(items.isEmpty()) {
 			throw new MenuItemNotFoundException("Menu is empty");
