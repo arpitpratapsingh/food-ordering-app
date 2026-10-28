@@ -13,8 +13,15 @@ import com.arpit.foodordering.enums.Status;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	public List<Order> findAllByStatus(Status status);
-	public List<Order> findByOrderDate(LocalDateTime orderDate);
+	public List<Order> findByOrderDateTime(LocalDateTime orderDateTime);
 	
-	@Query("Select distinct o from order o join o.orderItems oi join oi.menuItem mi where mi.restaurant.restaurantId = :restaurantId")
-	public List<Order> findOrdersByRestaurantId(@Param("restaurantId")Long restaurantId);
+	@Query("""
+		    SELECT DISTINCT o
+		    FROM Order o
+		    JOIN o.orderItems oi
+		    JOIN oi.menuItem mi
+		    WHERE mi.restaurant.restaurantId = :restaurantId
+		    """)
+		List<Order> findOrdersByRestaurantId(
+		        @Param("restaurantId") Long restaurantId);
 }

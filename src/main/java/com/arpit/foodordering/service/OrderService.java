@@ -164,13 +164,13 @@ public class OrderService {
 	}
 	
 	//7. get by date
-	public ResponseStructure<List<Order>> getByOrderDate(LocalDateTime orderDate){
+	public ResponseStructure<List<Order>> getByOrderDate(LocalDateTime orderDateTime){
 		
-		if(orderDate == null) {
+		if(orderDateTime == null) {
 			throw new IllegalArgumentException("Date can not be null");
 		}
 		
-		List<Order> orders = orderRepository.findByOrderDate(orderDate);
+		List<Order> orders = orderRepository.findByOrderDateTime(orderDateTime);
 		
 		if(orders.isEmpty()) {
 			throw new OrderNotFoundException("Order is empty");

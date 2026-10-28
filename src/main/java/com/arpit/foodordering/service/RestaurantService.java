@@ -35,7 +35,7 @@ public class RestaurantService {
 		
 		String name = restaurantDto.getRestaurantName().trim();
 		
-		if(restaurantRepository.existsByName(name)) {
+		if(restaurantRepository.existsByRestaurantName(name)) {
 			throw new DuplicateRestaurantException("Restaurant with name "+ name +" already exists");
 		}
 		
@@ -122,7 +122,7 @@ public class RestaurantService {
 				throw new IllegalArgumentException("Restaurant name cannot be empty");
 			}
 			
-			if(restaurantRepository.existsByName(name) &&
+			if(restaurantRepository.existsByRestaurantName(name) &&
 					!name.equalsIgnoreCase(restaurant.getRestaurantName())) {
 				throw new DuplicateRestaurantException("Please choose another name");
 			}
@@ -186,7 +186,7 @@ public class RestaurantService {
 			throw new IllegalArgumentException("Location cannot be null or empty");
 		}
 		
-		List<Restaurant> restaurants = restaurantRepository.findByLocation(location.trim());
+		List<Restaurant> restaurants = restaurantRepository.findByRestaurantLocation(location.trim());
 		
 		if(restaurants.isEmpty()) {
 			throw new RestaurantNotFoundException("There is no restaurant at given location");
@@ -207,7 +207,7 @@ public class RestaurantService {
 			throw new IllegalArgumentException("Name can not be null or empty");
 		}
 		
-		Optional<Restaurant> opt = restaurantRepository.findByName(name.trim());
+		Optional<Restaurant> opt = restaurantRepository.findByRestaurantName(name.trim());
 		
 		if(opt.isEmpty()) {
 			throw new RestaurantNotFoundException("Restaurant with name "+ name +" does not exist");
@@ -223,16 +223,16 @@ public class RestaurantService {
 	
 	
 	//8. get restaurant by rating
-	public ResponseStructure<List<Restaurant>> getRestaurantByRating(Double rating){
+	public ResponseStructure<List<Restaurant>> getRestaurantByRating(Double restaurantRating){
 		
-		if(rating == null || rating < 0.0 || rating > 5.0) {
+		if(restaurantRating == null || restaurantRating < 0.0 || restaurantRating > 5.0) {
 			throw new IllegalArgumentException("Rating must be between 0.0 and 5.0");
 		}
 		
-		List<Restaurant> restaurants = restaurantRepository.findByRating(rating);
+		List<Restaurant> restaurants = restaurantRepository.findByRestaurantRating(restaurantRating);
 		
 		if(restaurants.isEmpty()) {
-			throw new RestaurantNotFoundException("No restaurant found with rating " + rating);
+			throw new RestaurantNotFoundException("No restaurant found with rating " + restaurantRating);
 		}
 		
 		ResponseStructure<List<Restaurant>> response = new ResponseStructure<>();

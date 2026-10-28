@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.arpit.foodordering.entity.Restaurant;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long>{
-	public boolean existsByName(String name);
-	public List<Restaurant> findByLocation(String location);
-	public Optional<Restaurant> findByName(String name);
-	public List<Restaurant> findByRating(Double rating);
+	public boolean existsByRestaurantName(String restaurantName);
+	public List<Restaurant> findByRestaurantLocation(String restaurantLocation);
+	public Optional<Restaurant> findByRestaurantName(String restaurantName);
+	public List<Restaurant> findByRestaurantRating(Double restaurantRating);
 }
